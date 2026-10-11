@@ -12,7 +12,7 @@ export default function Hero() {
         <div className="absolute inset-0 bg-black/40" />
 
         <div className="relative z-10 p-8 text-white">
-          <h1 className="text-4xl font-serif mb-4">
+          <h1 className="text-3xl md:text-4xl font-serif mb-4">
             Handmade shoes, made to last
           </h1>
           <Link
