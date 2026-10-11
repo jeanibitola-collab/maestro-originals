@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Product } from "@/data/products";
+import FavoriteButton from "@/components/FavoriteButton";
 
 export default function ProductGrid({
   title,
@@ -18,27 +19,27 @@ export default function ProductGrid({
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {items.map((p) => (
-          <Link
-            key={p.id}
-            href={`/products/${p.id}`}
-            className="group relative border rounded-lg p-3 transition-shadow hover:shadow-lg"
-          >
-            <span className="absolute top-5 left-5 z-10 bg-orange-600 text-white text-xs px-2 py-1 rounded-full">
-              Handmade
-            </span>
-            <span className="absolute top-5 right-5 z-10 text-xl" aria-hidden>
-              ♡
-            </span>
-            <img
-              src={p.image}
-              alt={p.name}
-              className="w-full h-56 object-cover rounded transition-opacity group-hover:opacity-90"
-            />
-            <h3 className="mt-3 font-semibold">{p.name}</h3>
-            <p className="font-medium">${p.price.toFixed(2)}</p>
-          </Link>
-        ))}
+       {items.map((p) => (
+  <Link
+    key={p.id}
+    href={`/products/${p.id}`}
+    className="group border rounded-lg p-3 transition-shadow hover:shadow-lg"
+  >
+    <div className="relative">
+      <span className="absolute left-2 top-2 z-10 rounded-full bg-orange-600 px-2 py-1 text-xs text-white">
+        Handmade
+      </span>
+      <FavoriteButton id={p.id} />
+      <img
+        src={p.image}
+        alt={p.name}
+        className="h-56 w-full rounded object-cover transition-opacity group-hover:opacity-90"
+      />
+    </div>
+    <h3 className="mt-3 font-semibold">{p.name}</h3>
+    <p className="font-medium">${p.price.toFixed(2)}</p>
+  </Link>
+))}
       </div>
     </section>
   );

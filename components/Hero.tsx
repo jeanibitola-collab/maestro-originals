@@ -6,7 +6,7 @@ export default function Hero() {
       {/* Big banner with background image */}
       <div
         className="relative lg:col-span-2 min-h-80 rounded-lg overflow-hidden bg-cover bg-center flex items-center justify-center text-center"
-        style={{ backgroundImage: "url('/hero.jpg')" }}
+        style={{ backgroundImage: "url('/Hero.jpg')" }}
       >
         {/* Dark overlay so the text stays readable */}
         <div className="absolute inset-0 bg-black/40" />

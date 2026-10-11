@@ -3,7 +3,7 @@ import { categories } from "@/data/categories";
 
 export default function CategoryNav() {
   return (
-    <nav className="grid grid-cols-2 px-6 py-3">
+    <nav className="mx-auto grid max-w-7xl grid-cols-2 px-6 py-3">
       {categories.map((c) => (
         <Link
           key={c.name}

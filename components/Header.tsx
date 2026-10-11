@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/context/CartContext";
+import { FaMagnifyingGlass, FaHeart, FaCartShopping } from "react-icons/fa6";
 
 export default function Header() {
   const { items } = useCart();
@@ -17,47 +18,63 @@ export default function Header() {
   }
 
   return (
-    <header className="flex items-center gap-4 px-6 py-3">
+    <header className="mx-auto flex w-full max-w-7xl items-center gap-4 px-6 py-3">
       {/* Logo */}
-      <Link href="/" className="flex items-center gap-3 text-4xl font-bold">
-  <span className="mix-blend-screen">
-    <span className="block bg-orange-600">
-      <img
-        src="/logo.png"
-        alt=""
-        className="h-12 w-12 object-contain mix-blend-multiply"
-      />
+    <Link href="/" className="flex items-center gap-3 text-4xl font-bold">
+    <span className="block overflow-hidden rounded-lg bg-white">
+    <img src="/logo.png" alt="" className="h-14 w-14 object-contain invert" />
     </span>
-  </span>
-  <span>Maestro Originals</span>
-</Link>
-
+    <span>Maestro Originals</span>
+    </Link>
       {/* Rounded search bar */}
-      <form
-        onSubmit={onSearch}
-        className="flex flex-1 items-center border-2 border-white rounded-full pr-1"
-      >
-        <input
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search for shoes"
-          className="flex-1 bg-transparent px-4 py-2 outline-none"
-        />
-        <button
-          type="submit"
-          aria-label="Search"
-          className="w-9 h-9 rounded-full bg-black-600 text-white"
-        >
-          🔍
-        </button>
-      </form>
+     <form
+  onSubmit={onSearch}
+  className="relative flex h-12 flex-1 items-center overflow-hidden rounded-full border-2 border-current"
+>
+  <input
+    value={query}
+    onChange={(e) => setQuery(e.target.value)}
+    placeholder="Search for shoes"
+    className="h-full flex-1 bg-transparent pl-5 pr-16 outline-none placeholder:text-gray-500"
+  />
+  <button
+    type="submit"
+    aria-label="Search"
+    className="absolute right-1 top-1 bottom-1 flex w-9 items-center justify-center rounded-full bg-orange-600 text-white transition-all duration-200 hover:right-0 hover:top-0 hover:bottom-0 hover:w-14 hover:rounded-none hover:bg-orange-400"
+  >
+    <FaMagnifyingGlass />
+  </button>
+</form>
 
       {/* Right side */}
-      <span className="hidden sm:block text-sm font-medium">Sign in</span>
-      <span aria-label="Favorites">♡</span>
-      <Link href="/cart" className="whitespace-nowrap">
-        🛒 {count}
-      </Link>
+     {/* Right side */}
+<div className="flex items-center gap-1">
+  <button className="hidden sm:block rounded-full px-4 py-2.5 text-sm font-medium transition-colors hover:bg-gray-500/20">
+  Sign in
+</button>
+
+  {/* Favorites */}
+  <button
+    aria-label="Favorites"
+    className="flex h-11 w-11 items-center justify-center rounded-full text-xl transition-colors hover:bg-gray-500/20"
+  >
+    <FaHeart />
+  </button>
+
+  {/* Cart */}
+  <Link
+    href="/cart"
+    aria-label="Cart"
+    className="relative flex h-11 w-11 items-center justify-center rounded-full text-xl transition-colors hover:bg-gray-500/20"
+  >
+    <FaCartShopping />
+    {count > 0 && (
+      <span className="absolute right-0 top-0 flex h-5 min-w-5 items-center justify-center rounded-full bg-orange-600 px-1 text-xs font-semibold text-white">
+        {count}
+      </span>
+    )}
+  </Link>
+</div>
     </header>
   );
 }

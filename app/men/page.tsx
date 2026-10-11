@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { products } from "@/data/products";
+import FavoriteButton from "@/components/FavoriteButton";
 
 const filters = [
   { label: "All", value: "all" },
@@ -51,11 +52,14 @@ export default function MenPage() {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-5 gap-y-8">
           {items.map((p) => (
             <Link key={p.id} href={`/products/${p.id}`} className="group">
+              <div className="relative">
+              <FavoriteButton id={p.id} />
               <img
                 src={p.image}
                 alt={p.name}
                 className="aspect-square w-full rounded-lg object-cover transition-opacity group-hover:opacity-90"
               />
+              </div>
               <h2 className="mt-3 truncate text-sm font-medium">{p.name}</h2>
               <p className="font-semibold">${p.price.toFixed(2)}</p>
             </Link>
