@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FaMagnifyingGlass, FaHeart, FaCartShopping, FaShoePrints } from "react-icons/fa6";
+import { FaMagnifyingGlass, FaHeart, FaCartShopping, FaShoePrints, FaRegUser } from "react-icons/fa6";
 import { useCart } from "@/context/CartContext";
 
 export default function Header() {
@@ -49,8 +49,11 @@ export default function Header() {
 
       {/* Right side */}
       <div className="ml-auto flex items-center gap-1 md:ml-0">
-        <button className="hidden rounded-full px-4 py-2.5 text-sm font-medium transition-colors hover:bg-gray-500/20 sm:block">
-          Sign in
+        <button 
+        aria-label="Sign in"
+        className="flex h-11 w-11 items-center justify-center rounded-full text-xl transition-colors hover:bg-gray-500/20 sm:h-auto sm:w-auto sm:px-4 sm:py-2.5 sm:text-sm sm:font-medium">
+        <FaRegUser className="sm:hidden" />
+        <span className="hidden sm:inline">Sign in</span>
         </button>
 
         <button
