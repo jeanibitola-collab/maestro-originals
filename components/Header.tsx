@@ -18,17 +18,19 @@ export default function Header() {
   }
 
   return (
-    <header className="mx-auto flex w-full max-w-7xl items-center gap-4 px-6 py-3">
+    <header className="mx-auto flex w-full max-w-7xl flex-wrap items-center gap-x-4 gap-y-3 px-4 py-3 md:flex-nowrap md:px-6">
       {/* Logo */}
-      <Link href="/" className="flex items-center gap-3 text-4xl font-bold">
-        <FaShoePrints className="-rotate-90 text-xl text-orange-600 md:text-2xl" />
+      <Link
+        href="/"
+        className="flex items-center gap-2 whitespace-nowrap text-xl font-bold sm:text-3xl md:gap- md:text-4xl">
+          <FaShoePrints className="-rotate-90 text-xl text-orange-600 md:text-2xl" />
         <span>Maestro Originals</span>
       </Link>
 
-      {/* Search bar */}
+      {/* Search: its own row on phones, inline on desktop */}
       <form
         onSubmit={onSearch}
-        className="relative flex h-12 flex-1 items-center overflow-hidden rounded-full border-2 border-current"
+        className="relative order-last flex h-12 w-full items-center overflow-hidden rounded-full border-2 border-current md:order-none md:w-auto md:flex-1"
       >
         <input
           value={query}
@@ -46,7 +48,7 @@ export default function Header() {
       </form>
 
       {/* Right side */}
-      <div className="flex items-center gap-1">
+      <div className="ml-auto flex items-center gap-1 md:ml-0">
         <button className="hidden rounded-full px-4 py-2.5 text-sm font-medium transition-colors hover:bg-gray-500/20 sm:block">
           Sign in
         </button>
