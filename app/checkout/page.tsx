@@ -7,7 +7,7 @@ import { useAuth } from "@/context/AuthContext";
 import { FaArrowLeft } from "react-icons/fa6";
 import { useCart } from "@/context/CartContext";
 
-const DELIVERY_FEE = 0; // set your real delivery fee here
+const DELIVERY_FEE: number = 0; // set your real delivery fee here
 
 export default function CheckoutPage() {
   const { items, total } = useCart();
