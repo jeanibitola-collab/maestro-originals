@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
-import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 import Header from "@/components/Header";
 import CategoryNav from "@/components/CategoryNav";
 import Footer from "@/components/Footer";
+import { AuthProvider } from "@/context/AuthContext";
 import { CartProvider } from "@/context/CartContext";
-
+import SignInModal from "@/components/SignInModal";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,9 +30,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+    <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=UnifrakturCook:wght@700&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <AuthProvider>
           <CartProvider>
             <Header />
             <Suspense fallback={null}>
@@ -41,8 +49,9 @@ export default function RootLayout({
             {children}
             <Footer />
           </CartProvider>
-        </body>
-      </html>
-    </ClerkProvider>
+          <SignInModal />
+        </AuthProvider>
+      </body>
+    </html>
   );
 }

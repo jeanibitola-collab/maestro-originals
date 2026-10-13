@@ -3,13 +3,16 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FaMagnifyingGlass, FaHeart, FaCartShopping, FaShoePrints, FaRegUser } from "react-icons/fa6";
+import { FaMagnifyingGlass, FaHeart, FaCartShopping, FaBoxOpen, FaRegUser } from "react-icons/fa6";
 import { useCart } from "@/context/CartContext";
-import { SignInButton, UserButton, useUser } from "@clerk/nextjs";
+import { useAuth } from "@/context/AuthContext";
+import Image from "next/image";
 
-
+const M_SIZE = "1.6em"; // size of the big M
+const M_SHIFT = "0.1em"; // + moves the M down, - moves it up
 export default function Header() {
-  const { isLoaded, isSignedIn } = useUser();
+  const { user, loading, signIn, logOut } = useAuth();
+  const [userMenu, setUserMenu] = useState(false);
   const { items } = useCart();
   const router = useRouter();
   const [query, setQuery] = useState("");
@@ -23,12 +26,17 @@ export default function Header() {
   return (
     <header className="mx-auto flex w-full max-w-7xl flex-wrap items-center gap-x-4 gap-y-3 px-4 py-3 md:flex-nowrap md:px-6">
       {/* Logo */}
-      <Link
-        href="/"
-        className="flex items-center gap-2 whitespace-nowrap text-xl font-bold sm:text-3xl md:gap- md:text-4xl">
-          <FaShoePrints className="-rotate-90 text-xl text-orange-600 md:text-2xl" />
-        <span>Maestro Originals</span>
-      </Link>
+    {/* Logo */}
+<Link href="/" aria-label="Maestro Originals home" className="shrink-0">
+  <Image
+    src="/maestro-logo.png"
+    alt="Maestro Originals"
+    width={1405}
+    height={530}
+    priority
+    style={{ height: 80, width: "auto", maxWidth: "none" }}
+  />
+</Link>
 
       {/* Search: its own row on phones, inline on desktop */}
       <form
@@ -52,20 +60,59 @@ export default function Header() {
 
       {/* Right side */}
       <div className="ml-auto flex items-center gap-1 md:ml-0">
-        {isLoaded && isSignedIn ? (
-  <div className="flex h-11 w-11 items-center justify-center">
-    <UserButton />
+        {!loading && user ? (
+  <div className="relative">
+    <button
+      onClick={() => setUserMenu(!userMenu)}
+      aria-label="Account"
+      className="flex h-11 w-11 items-center justify-center rounded-full transition-colors hover:bg-gray-500/20"
+    >
+      {user.photoURL ? (
+        <img src={user.photoURL} alt="" referrerPolicy="no-referrer" className="h-8 w-8 rounded-full" />
+      ) : (
+        <FaRegUser /> 
+      )}
+    </button>
+    {userMenu && (
+      <div className="absolute right-0 top-full z-50 mt-2 w-56 rounded-lg border bg-[var(--background)] p-3 shadow-lg">
+        <p className="truncate font-medium">{user.displayName}</p>
+        <p className="mb-3 truncate text-sm opacity-70">{user.email}</p>
+        
+     <Link
+  href="/account"
+  onClick={() => setUserMenu(false)}
+  className="flex items-center gap-3 px-3 py-2 hover:bg-white/10 rounded-lg"
+>
+  <FaRegUser />
+  My account
+</Link>
+
+<Link
+  href="/orders"
+  onClick={() => setUserMenu(false)}
+  className="flex items-center gap-3 px-3 py-2 hover:bg-white/10 rounded-lg"
+>
+  <FaBoxOpen />
+  Orders
+</Link>
+        <button
+          onClick={() => { logOut(); setUserMenu(false); }}
+          className="w-full rounded-lg border py-2 text-sm font-medium hover:bg-gray-500/20"
+        >
+          Sign out
+        </button>
+      </div>
+    )}
   </div>
 ) : (
-  <SignInButton mode="modal">
-    <button
-      aria-label="Sign in"
-      className="flex h-11 w-11 items-center justify-center rounded-full text-xl transition-colors hover:bg-gray-500/20 sm:h-auto sm:w-auto sm:px-4 sm:py-2.5 sm:text-sm sm:font-medium"
-    >
-      <FaRegUser className="sm:hidden" />
-      <span className="hidden sm:inline">Sign in</span>
-    </button>
-  </SignInButton>
+  <button
+    onClick={signIn}
+    aria-label="Sign in"
+    className="flex h-11 w-11 items-center justify-center rounded-full text-xl transition-colors hover:bg-gray-500/20 sm:h-auto sm:w-auto sm:px-4 sm:py-2.5 sm:text-sm sm:font-medium"
+  >
+    <FaRegUser className="sm:hidden" />
+    <span className="hidden sm:inline">Sign in</span>
+  </button>
 )}
 
         <Link href="/favorites"

@@ -9,7 +9,7 @@ import type { Product } from "@/data/products";
 import ProductRow from "@/components/ProductRow";
 
 // Replace with your real phone number
-const PHONE = "+000000000000";
+const PHONE = "+234 812 298 7435";
 
 export default function CartPage() {
   const { items, addItem, decreaseItem, removeItem, total } = useCart();
@@ -30,11 +30,6 @@ export default function CartPage() {
   const alsoViewed = products
     .filter((p) => !items.some((i) => i.id === p.id))
     .slice(0, 8);
-
-  function handleCheckout() {
-    // Connect your payment provider here
-    alert("Checkout isn't connected to a payment provider yet.");
-  }
 
   const label =
     "bg-gray-500/10 px-4 py-3 text-sm font-semibold uppercase opacity-80";
@@ -142,12 +137,12 @@ export default function CartPage() {
             >
               <FaPhone />
             </a>
-            <button
-              onClick={handleCheckout}
-              className="flex-1 rounded-lg bg-orange-600 text-lg font-semibold text-white transition-colors hover:bg-orange-500"
-            >
-              Checkout (${total.toFixed(2)})
-            </button>
+            <Link
+         href="/checkout"
+         className="flex flex-1 items-center justify-center rounded-lg bg-orange-600 text-lg font-semibold text-white transition-colors hover:bg-orange-500"
+>
+         Checkout (${total.toFixed(2)})
+            </Link>
           </div>
         </>
       )}

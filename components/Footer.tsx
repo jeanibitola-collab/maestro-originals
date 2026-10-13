@@ -8,10 +8,10 @@ import {
 
 // Replace the handles and links with your real accounts
 const socials = [
-  { name: "Instagram", handle: "@yourhandle", href: "https://instagram.com/yourhandle", Icon: FaInstagram },
-  { name: "Facebook", handle: "@yourhandle", href: "https://facebook.com/yourhandle", Icon: FaFacebookF },
-  { name: "X", handle: "@yourhandle", href: "https://x.com/yourhandle", Icon: FaXTwitter },
-  { name: "WhatsApp", handle: "+000 000 000 0000", href: "https://wa.me/0000000000000", Icon: FaWhatsapp },
+  { name: "Instagram", handle: "Instagram", href: "https://instagram.com/peter_rotimi8", Icon: FaInstagram },
+  { name: "Facebook", handle: "Facebook", href: "https://www.facebook.com/share/1Ddjd5svwF/?mibextid=wwXIfr", Icon: FaFacebookF },
+  { name: "X", handle: "X", href: "https://x.com/peterrotimi8", Icon: FaXTwitter },
+  { name: "WhatsApp", handle: "Whatsapp", href: "https://wa.me/+2348122987435", Icon: FaWhatsapp },
 ];
 
 export default function Footer() {
