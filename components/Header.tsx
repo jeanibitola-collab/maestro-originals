@@ -29,7 +29,7 @@ export default function Header() {
     {/* Logo */}
 <Link href="/" aria-label="Maestro Originals home" className="shrink-0">
   <Image
-    src="/maestro-logo.png"
+    src="/maestro-logo-black.png"
     alt="Maestro Originals"
     width={1405}
     height={530}
