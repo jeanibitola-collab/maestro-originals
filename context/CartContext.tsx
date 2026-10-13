@@ -8,9 +8,10 @@ type CartItem = Product & { quantity: number };
 type CartContextType = {
   items: CartItem[];
   addItem: (p: Product) => void;
+  decreaseItem: (id: number) => void;
   removeItem: (id: number) => void;
-  total: number;
   clearCart: () => void;
+  total: number;
 };
 
 const CartContext = createContext<CartContextType | null>(null);
@@ -19,14 +20,12 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [loaded, setLoaded] = useState(false);
 
-  // Load the saved cart once when the app starts
   useEffect(() => {
     const saved = localStorage.getItem("cart");
     if (saved) setItems(JSON.parse(saved));
     setLoaded(true);
   }, []);
 
-  // Save the cart whenever it changes (but only after loading)
   useEffect(() => {
     if (loaded) localStorage.setItem("cart", JSON.stringify(items));
   }, [items, loaded]);
@@ -42,14 +41,24 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       return [...prev, { ...p, quantity: 1 }];
     });
 
+  const decreaseItem = (id: number) =>
+    setItems((prev) =>
+      prev
+        .map((i) => (i.id === id ? { ...i, quantity: i.quantity - 1 } : i))
+        .filter((i) => i.quantity > 0)
+    );
+
   const removeItem = (id: number) =>
     setItems((prev) => prev.filter((i) => i.id !== id));
+
   const clearCart = () => setItems([]);
 
   const total = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
 
   return (
-    <CartContext.Provider value={{ items, addItem, removeItem, clearCart, total }}>
+    <CartContext.Provider
+      value={{ items, addItem, decreaseItem, removeItem, clearCart, total }}
+    >
       {children}
     </CartContext.Provider>
   );

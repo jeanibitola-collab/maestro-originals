@@ -26,7 +26,7 @@ export default function Hero() {
 
       {/* Smaller promo tile */}
       <Link
-        href="/shoes?category=boots"
+        href="/shoes?type=slides"
         className="relative min-h-80 md:min-h-87.5 rounded-lg overflow-hidden bg-cover bg-center flex items-end"
         style={{ backgroundImage: "url('/promo.jpg')" }}
       >

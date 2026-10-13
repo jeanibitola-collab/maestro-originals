@@ -5,8 +5,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FaMagnifyingGlass, FaHeart, FaCartShopping, FaShoePrints, FaRegUser } from "react-icons/fa6";
 import { useCart } from "@/context/CartContext";
+import { SignInButton, UserButton, useUser } from "@clerk/nextjs";
+
 
 export default function Header() {
+  const { isLoaded, isSignedIn } = useUser();
   const { items } = useCart();
   const router = useRouter();
   const [query, setQuery] = useState("");
@@ -49,19 +52,28 @@ export default function Header() {
 
       {/* Right side */}
       <div className="ml-auto flex items-center gap-1 md:ml-0">
-        <button 
-        aria-label="Sign in"
-        className="flex h-11 w-11 items-center justify-center rounded-full text-xl transition-colors hover:bg-gray-500/20 sm:h-auto sm:w-auto sm:px-4 sm:py-2.5 sm:text-sm sm:font-medium">
-        <FaRegUser className="sm:hidden" />
-        <span className="hidden sm:inline">Sign in</span>
-        </button>
+        {isLoaded && isSignedIn ? (
+  <div className="flex h-11 w-11 items-center justify-center">
+    <UserButton />
+  </div>
+) : (
+  <SignInButton mode="modal">
+    <button
+      aria-label="Sign in"
+      className="flex h-11 w-11 items-center justify-center rounded-full text-xl transition-colors hover:bg-gray-500/20 sm:h-auto sm:w-auto sm:px-4 sm:py-2.5 sm:text-sm sm:font-medium"
+    >
+      <FaRegUser className="sm:hidden" />
+      <span className="hidden sm:inline">Sign in</span>
+    </button>
+  </SignInButton>
+)}
 
-        <button
+        <Link href="/favorites"
           aria-label="Favorites"
           className="flex h-11 w-11 items-center justify-center rounded-full text-xl transition-colors hover:bg-gray-500/20"
         >
           <FaHeart />
-        </button>
+        </Link>
 
         <Link
           href="/cart"

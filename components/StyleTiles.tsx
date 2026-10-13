@@ -1,10 +1,10 @@
 import Link from "next/link";
 
 const styles = [
-  { name: "Boots", image: "/boot4.jpg" },
-  { name: "Loafers", image: "/image4.jpg" },
-  { name: "Sandals", image: "/image6.jpg" },
-  { name: "Oxfords", image: "/Hero.jpg" },
+  { name: "Boots", type: "shoes", image: "/boot4.jpg" },
+  { name: "Loafers", type: "shoes", image: "/image4.jpg" },
+  { name: "Sandals", type: "sandals", image: "/image6.jpg" },
+  { name: "Oxfords", type: "shoes", image: "/Hero.jpg" },
 ];
 
 export default function StyleTiles() {
@@ -15,7 +15,7 @@ export default function StyleTiles() {
         {styles.map((s) => (
           <Link
             key={s.name}
-            href={`/shoes?style=${s.name.toLowerCase()}`}
+            href={`/shoes?type=${s.type}`}
             className="group text-center"
           >
             <div
