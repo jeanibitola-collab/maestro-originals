@@ -74,7 +74,7 @@ export default function Header() {
       )}
     </button>
     {userMenu && (
-      <div className="absolute right-0 top-full z-50 mt-2 w-56 rounded-lg border bg-[var(--background)] p-3 shadow-lg">
+      <div className="absolute right-0 top-full z-50 mt-2 w-56 rounded-lg border bg-background p-3 shadow-lg">
         <p className="truncate font-medium">{user.displayName}</p>
         <p className="mb-3 truncate text-sm opacity-70">{user.email}</p>
         
@@ -87,14 +87,6 @@ export default function Header() {
   My account
 </Link>
 
-<Link
-  href="/orders"
-  onClick={() => setUserMenu(false)}
-  className="flex items-center gap-3 px-3 py-2 hover:bg-white/10 rounded-lg"
->
-  <FaBoxOpen />
-  Orders
-</Link>
         <button
           onClick={() => { logOut(); setUserMenu(false); }}
           className="w-full rounded-lg border py-2 text-sm font-medium hover:bg-gray-500/20"
