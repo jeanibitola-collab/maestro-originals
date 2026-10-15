@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { products } from "@/data/products";
 import FavoriteButton from "@/components/FavoriteButton";
+import { formatPrice } from "@/lib/format";
 
 const groups = [
   { label: "All", value: "all" },
@@ -75,7 +76,7 @@ export default function ShoesList() {
                 />
               </div>
               <h2 className="mt-3 truncate text-sm font-medium">{p.name}</h2>
-              <p className="font-semibold">${p.price.toFixed(2)}</p>
+              <p className="font-semibold">{formatPrice(p.price)}</p>
             </Link>
           ))}
         </div>

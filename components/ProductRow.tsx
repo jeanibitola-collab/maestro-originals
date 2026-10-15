@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Product } from "@/data/products";
+import { formatPrice } from "@/lib/format";
 
 export default function ProductRow({
   title,
@@ -33,7 +34,7 @@ export default function ProductRow({
                 )}
               </div>
               <p className="mt-2 truncate text-sm">{p.name}</p>
-              <p className="font-bold">${p.price.toFixed(2)}</p>
+              <p className="font-bold">{formatPrice(p.price)}</p>
             </Link>
           );
         })}

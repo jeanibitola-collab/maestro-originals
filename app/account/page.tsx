@@ -40,8 +40,8 @@ export default function AccountPage() {
   const router = useRouter();
 
   const [open, setOpen] = useState<Record<string, boolean>>({
-    profile: true,
-    security: true,
+    profile: false,
+    security: false,
   });
   const [confirming, setConfirming] = useState(false);
   const [deleting, setDeleting] = useState(false);

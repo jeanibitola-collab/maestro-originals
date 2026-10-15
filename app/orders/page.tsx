@@ -3,9 +3,11 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { collection, getDocs, query, where } from "firebase/firestore";
-import { FaArrowLeft, FaChevronRight } from "react-icons/fa6";
+import { FaChevronRight } from "react-icons/fa6";
 import { db } from "@/lib/firebase";
 import { useAuth } from "@/context/AuthContext";
+import AccountTabs from "@/components/AccountTabs";
+import { formatPrice } from "@/lib/format";
 
 type OrderItem = { name?: string; image?: string; price?: number; quantity?: number };
 type Order = {
@@ -57,7 +59,9 @@ export default function OrdersPage() {
     setError("");
     getDocs(query(collection(db, "orders"), where("uid", "==", user.uid)))
       .then((snap) => {
-        const list = snap.docs.map((d) => ({ id: d.id, ...(d.data() as Omit<Order, "id">) }));
+        const list = snap.docs
+  .map((d) => ({ id: d.id, ...(d.data() as Omit<Order, "id">) }))
+  .filter((o) => o.status !== "awaiting_payment");
         list.sort(
           (a, b) =>
             (toDate(b.createdAt)?.getTime() ?? 0) - (toDate(a.createdAt)?.getTime() ?? 0)
@@ -82,14 +86,10 @@ export default function OrdersPage() {
     }`;
 
   return (
-    <main className="mx-auto max-w-2xl pb-16">
+    <main className="mx-auto max-w-3xl px-4 pb-16 pt-10">
       {/* Title row */}
-      <div className="flex items-center gap-4 border-b px-4 py-4">
-        <Link href="/account" aria-label="Back to my account">
-          <FaArrowLeft />
-        </Link>
-        <h1 className="text-2xl font-semibold">Orders</h1>
-      </div>
+      <h1 className="mb-8 text-center font-serif text-4xl md:text-5xl">My account</h1>
+<AccountTabs active="orders" />
 
       {/* Tabs */}
       <div className="grid grid-cols-2 border-b">
@@ -206,7 +206,7 @@ export default function OrdersPage() {
                       Placed on {date.toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" })}
                     </p>
                   )}
-                  <p className="mt-1 font-bold">${total.toFixed(2)}</p>
+                  <p className="mt-1 font-bold">{formatPrice(total)}</p>
                 </div>
               </div>
             );

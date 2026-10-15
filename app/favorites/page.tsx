@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { products } from "@/data/products";
 import FavoriteButton from "@/components/FavoriteButton";
+import { formatPrice } from "@/lib/format";
 
 export default function FavoritesPage() {
   const [ids, setIds] = useState<number[]>([]);
@@ -40,7 +41,7 @@ export default function FavoritesPage() {
                 />
               </div>
               <h2 className="mt-3 truncate text-sm font-medium">{p.name}</h2>
-              <p className="font-semibold">${p.price.toFixed(2)}</p>
+              <p className="font-semibold">{formatPrice(p.price)}</p>
             </Link>
           ))}
         </div>

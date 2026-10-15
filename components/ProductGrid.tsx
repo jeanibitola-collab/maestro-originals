@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Product } from "@/data/products";
 import FavoriteButton from "@/components/FavoriteButton";
+import { formatPrice } from "@/lib/format";
 
 export default function ProductGrid({
   title,
@@ -37,7 +38,7 @@ export default function ProductGrid({
       />
     </div>
     <h3 className="mt-3 font-semibold">{p.name}</h3>
-    <p className="font-medium">${p.price.toFixed(2)}</p>
+    <p className="font-medium">{formatPrice(p.price)}</p>
   </Link>
 ))}
       </div>

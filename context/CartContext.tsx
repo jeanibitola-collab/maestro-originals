@@ -3,13 +3,16 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import type { Product } from "@/data/products";
 
-type CartItem = Product & { quantity: number };
+const MAX_QTY = 20; // keep in step with the limit in the payment route
+
+export type CartItem = Product & { quantity: number; size: string; key: string };
 
 type CartContextType = {
   items: CartItem[];
-  addItem: (p: Product) => void;
-  decreaseItem: (id: number) => void;
-  removeItem: (id: number) => void;
+  addItem: (p: Product, size: string) => void;
+  increaseItem: (key: string) => void;
+  decreaseItem: (key: string) => void;
+  removeItem: (key: string) => void;
   clearCart: () => void;
   total: number;
 };
@@ -21,8 +24,15 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    const saved = localStorage.getItem("cart");
-    if (saved) setItems(JSON.parse(saved));
+    try {
+      const saved = JSON.parse(localStorage.getItem("cart") || "[]");
+      if (Array.isArray(saved)) {
+        // Older carts had no sizes, so only keep items that have one
+        setItems(
+          saved.filter((i) => i && typeof i.size === "string" && typeof i.key === "string")
+        );
+      }
+    } catch {}
     setLoaded(true);
   }, []);
 
@@ -30,26 +40,34 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     if (loaded) localStorage.setItem("cart", JSON.stringify(items));
   }, [items, loaded]);
 
-  const addItem = (p: Product) =>
+  const addItem = (p: Product, size: string) =>
     setItems((prev) => {
-      const existing = prev.find((i) => i.id === p.id);
+      const key = `${p.id}-${size}`;
+      const existing = prev.find((i) => i.key === key);
       if (existing) {
         return prev.map((i) =>
-          i.id === p.id ? { ...i, quantity: i.quantity + 1 } : i
+          i.key === key ? { ...i, quantity: Math.min(MAX_QTY, i.quantity + 1) } : i
         );
       }
-      return [...prev, { ...p, quantity: 1 }];
+      return [...prev, { ...p, size, key, quantity: 1 }];
     });
 
-  const decreaseItem = (id: number) =>
+  const increaseItem = (key: string) =>
+    setItems((prev) =>
+      prev.map((i) =>
+        i.key === key ? { ...i, quantity: Math.min(MAX_QTY, i.quantity + 1) } : i
+      )
+    );
+
+  const decreaseItem = (key: string) =>
     setItems((prev) =>
       prev
-        .map((i) => (i.id === id ? { ...i, quantity: i.quantity - 1 } : i))
+        .map((i) => (i.key === key ? { ...i, quantity: i.quantity - 1 } : i))
         .filter((i) => i.quantity > 0)
     );
 
-  const removeItem = (id: number) =>
-    setItems((prev) => prev.filter((i) => i.id !== id));
+  const removeItem = (key: string) =>
+    setItems((prev) => prev.filter((i) => i.key !== key));
 
   const clearCart = () => setItems([]);
 
@@ -57,7 +75,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <CartContext.Provider
-      value={{ items, addItem, decreaseItem, removeItem, clearCart, total }}
+      value={{ items, addItem, increaseItem, decreaseItem, removeItem, clearCart, total }}
     >
       {children}
     </CartContext.Provider>
