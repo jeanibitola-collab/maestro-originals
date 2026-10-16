@@ -9,6 +9,7 @@ export type Product = {
   hideOnHome?: boolean;
   oldPrice?: number;
   sizes?: string[];
+  inStock?: boolean;
 };
 
 const items: Omit<Product, "id">[] = [
