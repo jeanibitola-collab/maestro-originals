@@ -21,6 +21,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://maestro-originals.vercel.app"),
   title: "Maestro Originals",
   description: "Handmade shoes, made to last",
 };
