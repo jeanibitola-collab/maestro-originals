@@ -37,7 +37,7 @@ function PasswordField({
         autoComplete={autoComplete}
         className="peer w-full rounded-lg border bg-transparent px-4 py-5 pr-14 text-lg outline-none focus:border-orange-600 focus:ring-1 focus:ring-orange-600"
       />
-      <label className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 bg-[var(--background)] px-1 text-lg opacity-60 transition-all peer-focus:top-0 peer-focus:text-sm peer-focus:text-orange-600 peer-focus:opacity-100 peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-sm">
+      <label className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 bg-background px-1 text-lg opacity-60 transition-all peer-focus:top-0 peer-focus:text-sm peer-focus:text-orange-600 peer-focus:opacity-100 peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-sm">
         {label} *
       </label>
       <button

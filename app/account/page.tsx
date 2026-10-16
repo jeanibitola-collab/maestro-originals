@@ -167,11 +167,11 @@ export default function AccountPage() {
       {/* Delete account confirmation */}
       {confirming && (
         <div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 p-4"
+          className="fixed inset-0 z-100 flex items-center justify-center bg-black/60 p-4"
           onClick={() => !deleting && setConfirming(false)}
         >
           <div
-            className="w-full max-w-sm rounded-2xl bg-[var(--background)] p-6 shadow-xl"
+            className="w-full max-w-sm rounded-2xl bg-background p-6 shadow-xl"
             onClick={(e) => e.stopPropagation()}
           >
             <h3 className="text-xl font-semibold">Delete your account?</h3>

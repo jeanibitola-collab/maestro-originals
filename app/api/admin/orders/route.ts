@@ -25,7 +25,8 @@ export async function GET(req: Request) {
 
     return NextResponse.json({ orders });
   } catch (e) {
-    console.error("Admin orders error:", e);
+  if ((e as { digest?: string })?.digest === "NEXT_PRERENDER_INTERRUPTED") throw e;
+  console.error("Admin orders error:", e);
     return NextResponse.json({ error: "Could not load orders." }, { status: 500 });
   }
 }

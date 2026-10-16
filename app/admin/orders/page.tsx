@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { formatPrice } from "@/lib/format";
 import { formatSize } from "@/data/sizes";
+import AdminNav from "@/components/AdminNav";
 
 type OrderItem = { name?: string; size?: string; quantity?: number };
 type AdminOrder = {
@@ -139,6 +140,8 @@ export default function AdminOrdersPage() {
           </button>
         )}
       </div>
+
+      <AdminNav active="orders" />
 
       {loading ? (
         <p className="py-16 text-center">Loading...</p>

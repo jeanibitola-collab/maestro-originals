@@ -8,12 +8,11 @@ import { db } from "@/lib/firebase";
 import { useAuth } from "@/context/AuthContext";
 
 // Fill in your real details. Leave a line as "" to hide it.
-const PHONE = ""; // e.g. "+234 801 234 5678"
-const WHATSAPP = ""; // digits only, with country code, e.g. "2348012345678"
-const EMAIL = ""; // e.g. "hello@yourdomain.com"
-const ADDRESS = ""; // e.g. "12 Example Street, Lagos"
-const HOURS = ""; // e.g. "Mon to Sat, 9am to 6pm"
-
+const PHONE: string = "+234 812 298 7435"; // e.g. "+234 801 234 5678"
+const WHATSAPP: string = "2348122987435"; // digits only, with country code, e.g. "2348012345678"
+const EMAIL: string = "olakunlerotimi09@gmail.com"; // e.g. "hello@yourdomain.com"
+const ADDRESS: string = "Fusam plaza, Double Dollar junction near British, Jos Nigeria"; // e.g. "12 Example Street, Lagos"
+const HOURS: string = "Mon to Sat, 24hrs"; // e.g. "Mon to Sat, 9am to 6pm"
 type Detail = { Icon: IconType; label: string; value: string; href?: string };
 
 const details = (

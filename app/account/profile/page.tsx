@@ -39,7 +39,7 @@ function Row({ label, children }: { label: string; children: React.ReactNode }) 
   return (
     <div className="border-b py-4">
       <p className="text-sm opacity-60">{label}</p>
-      <div className="mt-1 min-h-[2rem] text-lg">{children}</div>
+      <div className="mt-1 min-h-8 text-lg">{children}</div>
     </div>
   );
 }
