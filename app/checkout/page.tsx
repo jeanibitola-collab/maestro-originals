@@ -33,7 +33,7 @@ export default function CheckoutPage() {
     return;
   }
 
-  const uid = user.uid;
+  const currentUser = user;
   const fallbackName = user.displayName ?? "";
   let cancelled = false;
 
@@ -42,20 +42,15 @@ export default function CheckoutPage() {
 
   async function load(attempt: number) {
     try {
-      const snap = await getDocFromServer(doc(db, "users", uid));
+      const token = await currentUser.getIdToken();
+      const res = await fetch("/api/account/delivery", {
+        headers: { Authorization: `Bearer ${token}` },
+        cache: "no-store",
+      });
+      if (!res.ok) throw new Error(`Status ${res.status}`);
+      const d = await res.json();
       if (cancelled) return;
-      const d = snap.data() ?? {};
-      console.log(
-  "Checkout read:",
-  JSON.stringify({
-    uid,
-    fromCache: snap.metadata.fromCache,
-    pendingWrites: snap.metadata.hasPendingWrites,
-    keys: Object.keys(d),
-    hasPhone: !!d.phone,
-    hasAddress: !!d.address,
-  })
-);
+      console.log("Delivery details loaded:", { hasPhone: !!d.phone, hasAddress: !!d.address });
       setDelivery({
         name: d.name || fallbackName,
         phone: d.phone || "",
@@ -79,6 +74,14 @@ export default function CheckoutPage() {
     cancelled = true;
   };
 }, [user, reloadKey]);
+
+useEffect(() => {
+  const onShow = (e: PageTransitionEvent) => {
+    if (e.persisted) setReloadKey((k) => k + 1);
+  };
+  window.addEventListener("pageshow", onShow);
+  return () => window.removeEventListener("pageshow", onShow);
+}, []);
 
   const count = items.reduce((n, i) => n + i.quantity, 0);
   const grandTotal = total + DELIVERY_FEE_AMOUNT;
